@@ -26,7 +26,8 @@ function init() {
 function plotGraphs(selectValue) {
 
   createBarChart(selectValue);
-  bubbleChart(selectValue);
+  createBubbleChart(selectValue);
+  createGuageChart(selectValue);
 
 }
 
@@ -75,7 +76,7 @@ function createBarChart(selectValue) {
   Plotly.newPlot("bar", [trace], layout);
 }     
 
-function bubbleChart(valueSelect) {
+function createBubbleChart(valueSelect) {
   var filterValue3 = data.samples.filter(value => value.id == valueSelect);
   var otuId = filterValue3.map(value => value.otu_ids);
   otuId = otuId[0];
@@ -115,4 +116,8 @@ function bubbleChart(valueSelect) {
   };
 
   Plotly.newPlot("bubble", [trace], layout);
+}
+
+function createGaugeChart(valueSelect) {
+
 }
