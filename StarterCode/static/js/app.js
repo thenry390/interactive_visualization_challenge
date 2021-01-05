@@ -17,6 +17,7 @@ function init() {
           return value;
         });
     });
+
     plotGraphs('940')
 
   });
@@ -25,6 +26,7 @@ function init() {
 function plotGraphs(selectValue) {
 
   createBarChart(selectValue);
+  bubbleChart(selectValue);
 
 }
 
@@ -44,10 +46,6 @@ function createBarChart(selectValue) {
   // call function getBackNames passing the first 10 OTU Labels to get the list of 10 bacteria names
  
   var otuLabels = (otuLabels[0]).slice(0, 10).reverse();
-  console.log(otuLabels);
-  //console.log(sampleCounts);
-  //console.log(otuIds);
-  //console.log(otuLabels);
 
   var trace = {
 
@@ -63,13 +61,41 @@ function createBarChart(selectValue) {
   };
 
   var layout = {
+
    };
 
   // Plot the chart to a div tag with id "bar-plot"
   Plotly.newPlot("bar", [trace], layout);
 }     
 
-//function to return the name of the bacteria.
+function bubbleChart(valueSelect) {
+  var filterValue3 = data.samples.filter(value => value.id == valueSelect);
+  var otuId = filterValue3.map(value => value.otu_ids);
+  otuId = otuId[0];
+  var sampValues = filterValue3.map(v => v.sample_values);
+  sampValues = sampValues[0];
+
+  var outLabel = filterValue3.map(v => v.otu_labels);
+  outLabel = getBactNames(outLabel[0]);
+
+  var trace = {
+    x: otuId,
+    y: sampValues,
+    mode: "markers",
+    marker: {
+      color: otuId,
+      size: sampValues
+    },
+    text: outLabel
+  };
+
+  var layout = {
+      xaxis: { title: "OTU ID" }
+  };
+
+  Plotly.newPlot("bubble", [trace], layout);
+}
+// function to return the name of the bacteria.
 // if an array value has more than one name, it will consider the last name of the value
 // return just the 10 first values of the result
 function getBactNames(names) {
