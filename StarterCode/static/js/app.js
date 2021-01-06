@@ -28,6 +28,7 @@ function plotGraphs(selectValue) {
   createBarChart(selectValue);
   createBubbleChart(selectValue);
   createGuageChart(selectValue);
+  populateDemographicInfo(selectValue);
 
 }
 
@@ -126,12 +127,12 @@ function createGuageChart(valueSelect) {
   var filterValue = data.metadata.filter(value => value.id == valueSelect);
   var weeklyFreq = filterValue[0].wfreq;
 
-  var data = [
+  var model = [
     {
       type: "indicator",
       mode: "gauge+number+delta",
-      value: 420,
-      title: { text: "Speed", font: { size: 24 } },
+      value: weeklyFreq,
+      title: { text: "Wash Frequency", font: { size: 24 } },
       delta: { reference: 400, increasing: { color: "RebeccaPurple" } },
       gauge: {
         axis: { range: [null, 500], tickwidth: 1, tickcolor: "darkblue" },
@@ -160,5 +161,20 @@ function createGuageChart(valueSelect) {
     font: { color: "darkblue", family: "Arial" }
   };
   
-  Plotly.newPlot('gauge', data, layout);
+  Plotly.newPlot('gauge', model, layout);
+}
+
+function populateDemographicInfo(valueSelect) {
+
+  var filterValue = data.metadata.filter(value => value.id == valueSelect);
+
+  var nValue = d3.select(".panel-body");
+  nValue.html("");
+  nValue.append("p").text(`id: ${filterValue[0].id}`);
+  nValue.append("p").text(`ethnicity: ${filterValue[0].ethnicity}`);
+  nValue.append("p").text(`gender: ${filterValue[0].gender}`);
+  nValue.append("p").text(`age: ${filterValue[0].age}`);
+  nValue.append("p").text(`location: ${filterValue[0].location}`);
+  nValue.append("p").text(`bbtype: ${filterValue[0].bbtype}`);
+  nValue.append("p").text(`wfreq: ${filterValue[0].wfreq}`);
 }
