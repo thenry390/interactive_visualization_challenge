@@ -133,16 +133,24 @@ function createGuageChart(valueSelect) {
       mode: "gauge+number+delta",
       value: weeklyFreq,
       title: { text: "Wash Frequency", font: { size: 24 } },
-      delta: { reference: 400, increasing: { color: "RebeccaPurple" } },
+      delta: { reference: 10, increasing: { color: "RebeccaPurple" } },
       gauge: {
-        axis: { range: [null, 500], tickwidth: 1, tickcolor: "darkblue" },
+        axis: { range: [null, 10], tickwidth: 1, tickcolor: "darkblue" },
         bar: { color: "darkblue" },
         bgcolor: "white",
         borderwidth: 2,
         bordercolor: "gray",
         steps: [
-          { range: [0, 250], color: "cyan" },
-          { range: [250, 400], color: "royalblue" }
+          { range: [0, 1], color: "cyan" },
+          { range: [1, 2], color: "royalblue" },
+          { range: [2, 3], color: "cyan" },
+          { range: [3, 4], color: "royalblue" },
+          { range: [4, 5], color: "cyan" },
+          { range: [5, 6], color: "royalblue" },
+          { range: [6, 7], color: "cyan" },
+          { range: [7, 8], color: "royalblue" },
+          { range: [8, 9], color: "cyan" },
+          { range: [9, 10], color: "royalblue" }
         ],
         threshold: {
           line: { color: "red", width: 4 },
