@@ -1,8 +1,11 @@
 // first time, call to initialize page populating drop-down list
 init();
-var data;
+var data;  // global variable declaration since this attribute is used throughout script
 
 function init() {
+
+  // initialize the page using d3 library loading the data from the JSON file creating the dashboard.  
+  // onchange is coded inline in the index.html file
 
   d3.json("static/js/samples.json").then(dataInit => {
 
@@ -18,11 +21,12 @@ function init() {
         });
     });
 
+    //default to 940 upon entry the first time
     plotGraphs('940')
 
   });
 }
-
+// as selection changes make calls to respective functions to rebuild dashboard
 function plotGraphs(selectValue) {
 
   createBarChart(selectValue);
@@ -87,7 +91,7 @@ function createBubbleChart(valueSelect) {
   sampValues = sampValues[0];
 
   var outLabel = filterValue3.map(value => value.otu_labels);
-  //outLabel = getBactNames(outLabel[0]);
+  
   var listOfBacts = [];
 
   for (var i = 0; i < outLabel[0].length; i++) {
@@ -126,7 +130,7 @@ function createGuageChart(valueSelect) {
 
   var filterValue = data.metadata.filter(value => value.id == valueSelect);
   var weeklyFreq = filterValue[0].wfreq;
-
+  // basically a borrowed code snippet from borrowed from https://plotly.com/javascript/gauge-charts/
   var model = [
     {
       type: "indicator",
@@ -140,6 +144,7 @@ function createGuageChart(valueSelect) {
         bgcolor: "white",
         borderwidth: 2,
         bordercolor: "gray",
+        // alternate colors just to show changes
         steps: [
           { range: [0, 1], color: "cyan" },
           { range: [1, 2], color: "royalblue" },
@@ -177,7 +182,8 @@ function populateDemographicInfo(valueSelect) {
   var filterValue = data.metadata.filter(value => value.id == valueSelect);
 
   var nValue = d3.select(".panel-body");
-  nValue.html("");
+  nValue.html("");  //initialize otherwise will keep accumulating as selection changes
+  // using paragraph seperators, add the metadata as described in homework instructions
   nValue.append("p").text(`id: ${filterValue[0].id}`);
   nValue.append("p").text(`ethnicity: ${filterValue[0].ethnicity}`);
   nValue.append("p").text(`gender: ${filterValue[0].gender}`);
